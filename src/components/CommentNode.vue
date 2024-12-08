@@ -1,20 +1,14 @@
 <template>
-  <div class="business-node p-4 border rounded shadow-md bg-blue-50">
+  <div class="comment-node p-4 border rounded shadow-md bg-blue-50 max-w-[282px]">
     <div class="flex items-center gap-2">
-      <i class="pi pi-calendar-clock text-orange-500"></i>
-      <h1 class="text-black font-bold text-lg">Business Hours</h1>
+      <i class="pi pi-comment text-blue-500"></i>
+      <h1 class="text-black font-bold text-md">Add Comment #1</h1>
     </div>
 
     <Divider class="!my-2" />
 
     <div>
-      <p class="text-gray-600 font-medium">Business Hours - UTC</p>
-
-      <div class="nodrag">
-        <button @click="showBusinessDrawer = true" class="text-blue-500 underline">
-          View Details
-        </button>
-      </div>
+      <p class="text-gray-600 font-medium">{{ data.comment }}</p>
     </div>
   </div>
 
@@ -23,11 +17,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import Divider from 'primevue/divider'
 import { Handle, Position } from '@vue-flow/core'
-
-const showBusinessDrawer = ref(false)
 
 const props = defineProps({
   id: {
@@ -42,7 +33,7 @@ const props = defineProps({
 </script>
 
 <style scoped>
-.business-node {
-  border-color: orange;
+.comment-node {
+  border-color: green;
 }
 </style>

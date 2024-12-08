@@ -1,0 +1,38 @@
+[
+  {
+    "id": "e1->2",
+    "source": "1",
+    "target": "d09c08",
+    "type": "straight"
+  },
+  {
+    "id": "e1->3",
+    "source": "28c4b9",
+    "target": "b6a0c1",
+    "type": "straight"
+  },
+  {
+    "id": "e1->4",
+    "source": "161f52",
+    "target": "b0653a",
+    "type": "straight"
+  },
+  {
+    "id": "e2->3",
+    "source": "d09c08",
+    "target": "28c4b9",
+    "type": "smoothstep"
+  },
+  {
+    "id": "e2->4",
+    "source": "d09c08",
+    "target": "161f52",
+    "type": "smoothstep"
+  },
+  {
+    "id": "e2->5",
+    "source": "b6a0c1",
+    "target": "e879e4",
+    "type": "straight"
+  }
+]

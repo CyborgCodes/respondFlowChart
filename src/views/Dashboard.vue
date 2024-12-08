@@ -1,17 +1,16 @@
 <template>
-  <main class="grid grid-cols-4 lg:grid-cols-5 h-screen">
+  <main class="h-screen w-screen">
     <!-- Canvas -->
-    <div class="col-span-2 lg:col-span-3">
-      <Canvas />
-    </div>
+    <TestCanvas />
 
-    <div class="col-span-2 lg:col-span-2 h-screen">
+    <!-- <div class="col-span-2 lg:col-span-2 h-screen">
       <Sidebar />
-    </div>
+    </div> -->
   </main>
 </template>
 
 <script setup lang="ts">
 import Sidebar from '@/components/Sidebar.vue'
 import Canvas from '@/components/Canvas.vue'
+import TestCanvas from '@/components/TestCanvas.vue'
 </script>
