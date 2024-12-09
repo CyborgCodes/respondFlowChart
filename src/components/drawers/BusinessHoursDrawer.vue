@@ -102,7 +102,7 @@
 
 <script setup lang="ts">
 import { useFlowStore } from '@/stores/flowStore'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { Divider, DatePicker, Select, Drawer, Button } from 'primevue'
 
 const flowStore = useFlowStore()
@@ -130,33 +130,11 @@ const closeDrawer = () => {
   emit('update:visible', false)
 }
 
-console.log('nodeDataaaa: ', props.nodeData.value)
-
-watch(props, (newVal) => {
-  console.log('newww: ', newVal.nodeData.timezone)
-})
-
-// Reactive State
-const businessHours = ref(
-  days.map(() => ({
-    startTime: null,
-    endTime: null,
-  })),
-)
-
 const timezones: any = ref([
   { value: 'UTC', label: 'UTC' },
   { value: 'PST', label: 'Pacific Standard Time' },
   { value: 'EST', label: 'Eastern Standard Time' },
 ])
-
-watch(
-  businessHours,
-  (newVal) => {
-    console.log('Business hours updated:', newVal)
-  },
-  { deep: true },
-)
 </script>
 
 <style scoped>
