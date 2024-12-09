@@ -5,13 +5,7 @@
     dismissableMask
     header="Create New Node"
     :style="{ width: '30rem' }"
-    :pt="{
-      headerActions: {
-        style: {
-          display: 'none',
-        },
-      },
-    }"
+    :pt="{ headerActions: { style: { display: 'none' } } }"
   >
     <div class="flex flex-col gap-2 mb-4">
       <label for="Title" class="font-semibold w-24">Title</label>
@@ -64,7 +58,7 @@ const props = defineProps({
 })
 
 // Emits
-const emit = defineEmits(['update:visible', 'add-node'])
+const emit = defineEmits(['update:visible'])
 
 // Reactive node data
 const localNode = ref({
@@ -85,44 +79,86 @@ watch(
   () => props.visible,
   (newVal) => {
     if (!newVal) {
-      localNode.value = { title: '', description: '', type: '' }
+      resetLocalNode()
     }
   },
 )
+
+// Reset localNode to initial state
+const resetLocalNode = () => {
+  localNode.value = { title: '', description: '', type: '' }
+}
 
 // Close the dialog
 const closeDialog = () => {
   emit('update:visible', false)
 }
 
-// Confirm and emit the new node
+// Create a node with the given data
+const createNode = (type: string, data: any) => {
+  const nodeId = Math.random().toString()
+  const position = { x: Math.random() * 400, y: Math.random() * 400 }
+  return { id: nodeId, position, type, data }
+}
+
+// Add edges between nodes
+const createEdges = (sourceId: string, targetId: string, handle: any) => ({
+  id: `e${sourceId}-${targetId}`,
+  source: sourceId,
+  target: targetId,
+  type: 'smoothstep',
+  sourceHandle: handle,
+})
+
+// Confirm and save the node
 const confirmNode = () => {
-  if (!localNode.value.title || !localNode.value.type) {
-    // Validate required fields
+  const { title, description, type } = localNode.value
+
+  if (!title || !type) {
     alert('Please fill in all required fields!')
     return
   }
 
-  flowStore.addNode({
-    id: Date.now().toString(), // Generate unique ID
-    title: localNode.value.title,
-    description: localNode.value.description,
-    type: localNode.value.type,
-    position: { x: 200, y: 0 }, // Default position
-    data: { title: localNode.value.title, description: localNode.value.description },
-  })
+  switch (type) {
+    case 'dateTime': {
+      const mainNode = createNode(type, { label: title, description })
+      const successNode = createNode('dateTimeConnector', { connectorType: 'Success' })
+      const failureNode = createNode('dateTimeConnector', { connectorType: 'Failure' })
 
-  // Emit new node data to the parent
-  // emit('add-node', {
-  //   id: Date.now().toString(), // Generate unique ID
-  //   title: localNode.value.title,
-  //   description: localNode.value.description,
-  //   type: localNode.value.type,
-  //   position: { x: 200, y: 0 }, // Default position
-  //   data: { title: localNode.value.title, description: localNode.value.description },
-  // })
+      successNode.position.x = mainNode.position.x - 150
+      successNode.position.y = mainNode.position.y + 150
 
-  // Close dialog
+      failureNode.position.x = mainNode.position.x + 150
+      failureNode.position.y = mainNode.position.y + 150
+
+      const edges = [
+        createEdges(mainNode.id, successNode.id, 'success'),
+        createEdges(mainNode.id, failureNode.id, 'failure'),
+      ]
+
+      flowStore.addNode(mainNode)
+      flowStore.addNode(successNode)
+      flowStore.addNode(failureNode)
+      flowStore.addEdges(edges)
+      break
+    }
+
+    case 'addComment': {
+      const mainNode = createNode(type, { label: title, comment: description })
+      flowStore.addNode(mainNode)
+      break
+    }
+
+    default: {
+      const mainNode = createNode(type, {
+        label: title,
+        payload: [{ type: 'text', text: description }],
+      })
+      flowStore.addNode(mainNode)
+      break
+    }
+  }
+
   closeDialog()
 }
 </script>

@@ -8,10 +8,7 @@
     <Divider class="!my-2" />
 
     <div>
-      <p class="text-gray-600 font-medium">
-        Conversation Opened
-        <!-- {{ data.type === 'conversationOpened' ? 'Conversation Opened' : 'Closed' }} -->
-      </p>
+      <p class="text-gray-600 font-medium">Conversation Opened</p>
     </div>
   </div>
 

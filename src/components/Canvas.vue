@@ -1,11 +1,11 @@
 <template>
-  <div class="h-full">
+  <div class="w-full h-full">
     <VueFlow
       v-model:nodes="flowStore.nodes"
       :edges="flowStore.edges"
       :node-types="nodeTypes"
+      @connect="onConnect"
       fit-view-on-init
-      @onConnect="onConnect"
     >
       <Background />
       <Panel position="top-right">
@@ -14,7 +14,7 @@
     </VueFlow>
   </div>
 
-  <CreateNewNodeDialog v-model:visible="dialogVisible" :add-node="addNode" />
+  <CreateNode v-model:visible="dialogVisible" />
 </template>
 
 <script setup lang="ts">
@@ -22,43 +22,37 @@ import { markRaw, ref } from 'vue'
 import { useFlowStore } from '@/stores/flowStore'
 import { VueFlow, Panel } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
-import Button from 'primevue/button'
-import CreateNewNodeDialog from '@/components/CreateNewNodeDialog.vue'
-import StatusConnector from '@/components/StatusConnector.vue'
+import { Button } from 'primevue'
+
+//@ts-ignore
 import TriggerNode from '@/components/TriggerNode.vue'
-import BusinessHoursNode from '@/components/BusinessHoursNode.vue'
+
+import StatusConnector from '@/components/StatusConnector.vue'
+import CreateNode from '@/components/CreateNodeDialog.vue'
 import MessageNode from '@/components/MessageNode.vue'
 import CommentNode from '@/components/CommentNode.vue'
+import BusinessHoursNode from '@/components/BusinessHoursNode.vue'
 
 const nodeTypes: any = {
   trigger: markRaw(TriggerNode),
   dateTime: markRaw(BusinessHoursNode),
+  addComment: markRaw(CommentNode),
   sendMessage: markRaw(MessageNode),
   dateTimeConnector: markRaw(StatusConnector),
-  addComment: markRaw(CommentNode),
 }
 
 const flowStore = useFlowStore()
 
 const dialogVisible = ref(false)
 
-// Handle adding a new node
-const addNode = (newNode: any) => {
-  console.log('newNode: ', newNode)
-  flowStore.addNode(newNode)
-}
-
-// Handle adding a new edge (optional, for manual edge creation)
-const addEdge = (newEdge: any) => {
-  flowStore.addEdge(newEdge)
-}
-
-// Handle connection event from VueFlow
-const onConnect = (connection: any) => {
-  addEdge({
-    id: `e${connection.source}->${connection.target}`,
-    source: connection.source,
-    target: connection.target,
+const onConnect = (params: any) => {
+  flowStore.edges.push({
+    id: `e${params.source}-${params.sourceHandle}-${params.target}`,
+    source: params.source,
+    target: params.target,
+    sourceHandle: params.sourceHandle,
+    targetHandle: params.targetHandle,
+    type: 'default',
   })
 }
 </script>

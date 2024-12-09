@@ -12,7 +12,6 @@
     }"
   >
     <div class="h-full flex flex-col p-2.5">
-      <!-- Header (Fixed) -->
       <div class="py-6">
         <i class="pi pi-times cursor-pointer" @click="closeDrawer"></i>
       </div>
@@ -30,7 +29,6 @@
 
       <!-- Scrollable Content -->
       <div class="flex-1 p-6 overflow-auto flex flex-col gap-4">
-        <!-- Title -->
         <div class="grid grid-cols-4 items-center">
           <div class="flex items-center gap-2.5">
             <i class="pi pi-calendar"></i>
@@ -44,7 +42,6 @@
 
         <!-- Time Pickers -->
         <div v-for="(day, index) in days" :key="index" class="grid grid-cols-4 items-center">
-          <!-- Day -->
           <div>
             <span class="font-bold">{{ day }}</span>
           </div>
@@ -85,18 +82,36 @@
 
         <!-- Time Zone -->
         <label class="mt-2.5">Time Zone</label>
-        <Select v-model="timezone" :options="timezones" optionLabel="label" />
+        <Select
+          v-model="nodeData.timezone"
+          :options="timezones"
+          optionValue="value"
+          optionLabel="label"
+        />
       </div>
+
+      <Button
+        class="w-full mt-6"
+        label="Delete Node"
+        severity="danger"
+        @click="flowStore.removeNode(id)"
+      />
     </div>
   </Drawer>
 </template>
 
 <script setup lang="ts">
+import { useFlowStore } from '@/stores/flowStore'
 import { ref, watch } from 'vue'
-import { Divider, DatePicker, Select, Drawer } from 'primevue'
+import { Divider, DatePicker, Select, Drawer, Button } from 'primevue'
 
+const flowStore = useFlowStore()
 // Props
 const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+  },
   visible: {
     type: Boolean,
     default: false,
@@ -129,15 +144,12 @@ const businessHours = ref(
   })),
 )
 
-const timezone = ref('UTC')
-const timezones = ref([
+const timezones: any = ref([
   { value: 'UTC', label: 'UTC' },
   { value: 'PST', label: 'Pacific Standard Time' },
   { value: 'EST', label: 'Eastern Standard Time' },
-  // Add more timezones as needed
 ])
 
-// Watch changes (example for logging or emitting updates)
 watch(
   businessHours,
   (newVal) => {

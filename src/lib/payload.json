@@ -10,7 +10,6 @@
     "position": { "x": 100, "y": 100 }
   },
   {
-    "name": "Away Message",
     "id": "b6a0c1",
     "type": "sendMessage",
     "data": {
@@ -26,7 +25,6 @@
     "position": { "x": 292, "y": 600 }
   },
   {
-    "name": "Business Hours",
     "id": "d09c08",
     "type": "dateTime",
     "data": {
@@ -75,7 +73,6 @@
     "position": { "x": 100, "y": 300 }
   },
   {
-    "name": "Success",
     "id": "161f52",
     "type": "dateTimeConnector",
     "data": {
@@ -85,7 +82,6 @@
     "position": { "x": -100, "y": 500 }
   },
   {
-    "name": "Failure",
     "id": "28c4b9",
     "type": "dateTimeConnector",
     "data": {
@@ -95,7 +91,6 @@
     "position": { "x": 400, "y": 500 }
   },
   {
-    "name": "Welcome Message",
     "id": "b0653a",
     "type": "sendMessage",
     "data": {
@@ -118,7 +113,6 @@
     "id": "e879e4",
     "type": "addComment",
     "parentId": "b6a0c1",
-    "name": "Add Comment #1",
     "data": {
       "label": "Add Comment #1",
       "comment": "User message during off hours"
