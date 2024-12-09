@@ -8,6 +8,7 @@
       fit-view-on-init
     >
       <Background />
+      <MiniMap pannable zoomable />
       <Panel position="top-right">
         <Button label="Create New Node" @click="dialogVisible = true" />
       </Panel>
@@ -21,6 +22,7 @@
 import { markRaw, ref } from 'vue'
 import { useFlowStore } from '@/stores/flowStore'
 import { VueFlow, Panel } from '@vue-flow/core'
+import { MiniMap } from '@vue-flow/minimap'
 import { Background } from '@vue-flow/background'
 import { Button } from 'primevue'
 

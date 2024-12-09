@@ -4,6 +4,8 @@
 /* import the default theme, this is optional but generally recommended */
 @import '@vue-flow/core/dist/theme-default.css';
 
+@import '@vue-flow/minimap/dist/style.css';
+
 @import 'primeicons/primeicons.css';
 
 @tailwind base;
